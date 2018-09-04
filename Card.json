@@ -1,14 +1,14 @@
 ﻿{
   "@type": "MessageCard",
   "@context": "http://schema.org/extensions",
-  "originator": "",
+  "originator": "",  
   "summary": "Card \"Test card\"",
   "themeColor": "0078D7",
   "title": "Card created: \"Name of card\"",
   "sections": [
     {
-      "activityTitle": "Miguel Garcia",
-      "activitySubtitle": "9/13/2016, 3:34pm",
+      "activityTitle": "Eric Vernié",
+      "activitySubtitle": "9/04/2018, 3:34pm",
       "activityImage": "cid:activity_image",
       "facts": [
         {
@@ -99,11 +99,11 @@
     },
     {
       "@type": "OpenUri",
-      "name": "View in Trello",
+      "name": "View in PowerPoint",
       "targets": [
         {
           "os": "default",
-          "uri": "https://contoso.com/api"
+          "uri": "ms-powdrpoint:ofu|u|'C:\\Users\\ericv\\Downloads\\google-cloud-platform-official-icons-and-sample-diagrams.pptx'"
         }
       ]
     }

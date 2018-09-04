@@ -1,0 +1,21 @@
+{
+  "@schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Open PowerPoint",
+      "color": "dark",
+      "size": "extraLarge",
+      "weight": "bolder"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Open PowerPoint",
+      "url": "ms-powerpoint:ofu|u|%22https://evtools.blob.core.windows.net/template/Pr%C3%A9sentation%20Power%20BI_L100.pptx?st=2018-09-03T13%3A33%3A52Z&se=2018-09-04T13%3A33%3A52Z&sp=rl&sv=2018-03-28&sr=b&sig=4lKrx0jnQHZZLvS4auVBBcX9PDC0ut4H697A0VI4xDs%3D%22"
+    }
+  ]
+}

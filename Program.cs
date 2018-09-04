@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-
+using System.Text.RegularExpressions;
+using System.Globalization;
 using Microsoft.Identity.Client;
 using Microsoft.Graph;
 using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
-using System.Globalization;
 
 namespace send_actionable_message
 {
@@ -28,15 +27,58 @@ namespace send_actionable_message
             Console.ReadKey();
         }
 
+        static async Task SendMessageAsync2(string[] args)
+        {
+            string[] scopes =
+            {
+                "User.ReadWrite.All"
+               
+            };
+            var redirectUri = ConfigurationManager.AppSettings.Get("redirectUri");
+            var clientId = ConfigurationManager.AppSettings.Get("applicationId");
+            try
+            {
+                ClientCredential cred = new ClientCredential(ConfigurationManager.AppSettings["secret"]);
+                ConfidentialClientApplication authClient = new ConfidentialClientApplication(clientId, redirectUri, cred, null, null);
+
+                var result = await authClient.AcquireTokenForClientAsync(scopes);
+
+            }
+            catch (MsalClientException msalex)
+            {
+                Output.WriteLine(Output.Error, "An exception occurred while acquiring an access token.");
+                Output.WriteLine(Output.Error, "  Code: {0}; Message: {1}", msalex.ErrorCode, msalex.Message);
+            }
+            catch (MsalException ex)
+            {
+                Output.WriteLine(Output.Error, "An exception occurred while acquiring an access token.");
+                Output.WriteLine(Output.Error, "  Code: {0}; Message: {1}", ex.ErrorCode, ex.Message);
+            }
+            catch (Microsoft.Graph.ServiceException graphEx)
+            {
+                Output.WriteLine(Output.Error, "An exception occurred while making a Graph request.");
+                Output.WriteLine(Output.Error, "  Code: {0}; Message: {1}", graphEx.Error.Code, graphEx.Message);
+            }
+
+
+        }
+
         static async Task SendMessageAsync(string[] args)
         {
             // Setup MSAL client
-            authClient = new PublicClientApplication(ConfigurationManager.AppSettings.Get("applicationId"));
+            var authClient = new PublicClientApplication(ConfigurationManager.AppSettings.Get("applicationId"));
+           
 
             try
             {
                 // Get the access token
+               
+
+               
                 var result = await authClient.AcquireTokenAsync(scopes);
+
+
+                
 
                 // Initialize Graph client with delegate auth provider
                 // that just returns the token we already retrieved
@@ -80,7 +122,7 @@ namespace send_actionable_message
                     IsInline = true,
                     ContentId = "activity_image",
                     ContentType = "image/jpg",
-                    ContentBytes = System.IO.File.ReadAllBytes(@".\ActivityImage.jpg")
+                    ContentBytes = System.IO.File.ReadAllBytes(@".\ericv.jpg")
                 };
 
                 actionableMessage.Attachments.Add(actionImage);
@@ -157,7 +199,12 @@ namespace send_actionable_message
         static string LoadActionableMessageBody()
         {
             // Load the card JSON
-            var cardJson = JObject.Parse(System.IO.File.ReadAllText(@".\Card.json"));
+            //var cardJson = JObject.Parse(System.IO.File.ReadAllText(@".\Card.json"));
+
+            var cardJson = JObject.Parse(System.IO.File.ReadAllText(@".\card-2.json"));
+
+            //var cardJson = JObject.Parse(System.IO.File.ReadAllText(@".\AdaptativeCard.json"));
+
 
             // Check type
             // First, try "@type", which is the key MessageCard uses
